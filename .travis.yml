@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+  - 13
+
+services:
+  - docker
+
+script:
+  - docker --version # print the version for logging
+  - docker-compose -f docker-compose-build.yaml build --parallel
+  - docker tag reverseproxy trungphan99/reverseproxy:latest
+  - docker tag udagram-api-feed trungphan99/api-feed:latest
+  - docker tag udagram-api-user trungphan99/api-user:latest
+  - docker tag udagram-frontend trungphan99/front-end:latest
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push trungphan99/reverseproxy
+  - docker push trungphan99/api-user
+  - docker push trungphan99/api-feed
+  - docker push trungphan99/front-end
