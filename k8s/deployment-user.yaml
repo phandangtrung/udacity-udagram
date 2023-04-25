@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user
+  name: backend-user
   labels:
-    app: user
+    app: backend-user
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: user
+      app: backend-user
   template:
     metadata:
       labels:
-        service: user
-        app: user
+        service: backend-user
+        app: backend-user
     spec:
       containers:
       - image: trungphan99/api-user
@@ -21,11 +21,9 @@ spec:
         imagePullPolicy: Always          
         resources:
           requests:
-            memory: "64Mi"
             cpu: "250m"
           limits:
-            memory: "1024Mi"
-            cpu: "500m" 
+            cpu: "1024m" 
         env:
         - name: URL
           valueFrom:
